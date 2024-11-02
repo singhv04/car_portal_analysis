@@ -1,0 +1,9 @@
+
+
+1. we need to link 3 apis according to selected tab, one for each section/tabs. for now we will not do sample images, so we can comment that part from html.
+
+2. Not mandotory
+
+    a. sample images we can keep or remove based on complexity
+    b. if we are keeping sample images, we need to have different sample images for each section
+    c. those images should not be link from google if possible, we want to keep it in our local file
