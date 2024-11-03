@@ -1,15 +1,13 @@
 import sys
 import io
 import base64
-import subprocess
-from flask import Flask, request, jsonify
+import os
+from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS  # Import CORS
 from PIL import Image, ImageDraw
 
-
-from flask import Flask, render_template, request, jsonify
-import os
-
 app = Flask(__name__)
+CORS(app)  # Enable CORS for all routes
 
 # Set the folder to save uploaded images
 UPLOAD_FOLDER = 'uploads'
@@ -20,6 +18,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.route('/upload/<section>', methods=['POST'])
 def upload(section):
@@ -40,12 +39,7 @@ def upload(section):
     return jsonify({"result": result_data, "image_path": file_path})
 
 
-
 def car_parts_segregation(image):
-    # This is a placeholder for your image processing logic
-    # For demonstration, we'll just draw a red rectangle on the image
-    image.save("car_parts_segregation.png", format="PNG")
-
     draw = ImageDraw.Draw(image)
     draw.rectangle([20, 20, 100, 100], outline="green", width=5)
     
@@ -63,11 +57,8 @@ def car_parts_segregation(image):
     }
     return f"data:image/png;base64,{img_str}", metadata
 
-def document_analysis(image):
-    # This is a placeholder for your image processing logic
-    # For demonstration, we'll just draw a red rectangle on the image
-    image.save("document_analysis.png", format="PNG")
 
+def document_analysis(image):
     draw = ImageDraw.Draw(image)
     draw.rectangle([30, 30, 100, 100], outline="blue", width=5)
     
@@ -87,10 +78,6 @@ def document_analysis(image):
 
 
 def process_image(image):
-    # This is a placeholder for your image processing logic
-    # For demonstration, we'll just draw a red rectangle on the image
-    image.save("car_damage.png", format="PNG")
-
     draw = ImageDraw.Draw(image)
     draw.rectangle([10, 10, 100, 100], outline="red", width=5)
     
@@ -109,7 +96,6 @@ def process_image(image):
     return f"data:image/png;base64,{img_str}", metadata
 
 
-
 @app.route('/car_analysis', methods=['POST'])
 def car_parts_segregation_route():
     if 'image' not in request.files:
@@ -121,7 +107,6 @@ def car_parts_segregation_route():
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     
-    # Check if the file is allowed (you can add more allowed extensions)
     allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
     if '.' not in file.filename or file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
         return jsonify({"error": "File type not allowed"}), 400
@@ -137,7 +122,7 @@ def car_parts_segregation_route():
     except Exception as e:
         print(f"Error processing image: {str(e)}", file=sys.stderr)
         return jsonify({"error": "Error processing image"}), 500
-    
+
 
 @app.route('/document_analysis', methods=['POST'])
 def document_analysis_route():
@@ -146,11 +131,9 @@ def document_analysis_route():
     
     file = request.files['image']
     
-    # Check if the file has a filename
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     
-    # Check if the file is allowed (you can add more allowed extensions)
     allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
     if '.' not in file.filename or file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
         return jsonify({"error": "File type not allowed"}), 400
@@ -175,11 +158,9 @@ def process_image_route():
     
     file = request.files['image']
     
-    # Check if the file has a filename
     if file.filename == '':
         return jsonify({"error": "No selected file"}), 400
     
-    # Check if the file is allowed (you can add more allowed extensions)
     allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
     if '.' not in file.filename or file.filename.rsplit('.', 1)[1].lower() not in allowed_extensions:
         return jsonify({"error": "File type not allowed"}), 400
