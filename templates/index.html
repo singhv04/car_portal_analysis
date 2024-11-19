@@ -81,7 +81,8 @@
             <div class="flex space-x-2 justify-center">
                 <button onclick="openTab(event, 'Section1')" class="tablinks px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2" id="defaultOpen">Car damage assessment - I</button>
                 <button onclick="openTab(event, 'Section2')" class="tablinks px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">Car damage assessment - II</button>
-                <button onclick="openTab(event, 'Section3')" class="tablinks px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">Pancard ID-Verification</button>
+                <button onclick="openTab(event, 'Section3')" class="tablinks px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">Car parts segregation</button>
+                <button onclick="openTab(event, 'Section4')" class="tablinks px-4 py-2 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">Pancard ID-Verification</button>
             </div>
         </div>
 
@@ -137,7 +138,7 @@
 
         <div id="Section3" class="tabcontent hidden">
             <div class="bg-card p-6 rounded-lg shadow-lg">
-                <h2 class="text-2xl font-medium text-emerald-500">AI-powered document verification for fast, accurate, and secure insurance processing.</h2>
+                <h2 class="text-2xl font-medium text-emerald-500">AI-powered car parts segregation.</h2>
                 <div class="mb-4">
                     <label for="imageUpload3" class="block text-sm font-medium mb-2">Upload Image</label>
                     <input type="file" id="imageUpload3" accept="image/*" class="block w-full text-sm text-foreground
@@ -159,7 +160,36 @@
                 </div>
             </div>
         </div>
+
+
+        <div id="Section4" class="tabcontent hidden">
+            <div class="bg-card p-6 rounded-lg shadow-lg">
+                <h2 class="text-2xl font-medium text-emerald-500">AI-powered document verification for fast, accurate, and secure insurance processing.</h2>
+                <div class="mb-4">
+                    <label for="imageUpload3" class="block text-sm font-medium mb-2">Upload Image</label>
+                    <input type="file" id="imageUpload3" accept="image/*" class="block w-full text-sm text-foreground
+                        file:mr-4 file:py-2 file:px-4
+                        file:rounded-md file:border-0
+                        file:text-sm file:font-semibold
+                        file:bg-secondary file:text-secondary-foreground
+                        hover:file:bg-secondary/80">
+                </div>
+                <button onclick="processImage(4)" class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2">Process Image</button>
+                
+                <div class="mt-6">
+                    <h3 class="text-xl font-medium mb-2">Result</h3>
+                    <div id="result-container3" class="min-h-[200px] flex items-center justify-center bg-muted rounded-md">
+                        <img id="result-image3" src="" alt="Processed Image" class="max-w-full h-auto rounded-md hidden">
+                        <p id="placeholder-text3" class="text-muted-foreground">No image processed yet</p>
+                    </div>
+                    <pre id="metadata3" class="mt-4 p-4 bg-muted rounded-md overflow-x-auto"></pre>
+                </div>
+            </div>
+        </div>
+
     </div>
+
+
 
     <script>
         function openTab(evt, tabName) {
@@ -232,6 +262,8 @@
                 } else if (sectionNumber === 2) {
                     apiEndpoint = '/process_image';
                 } else if (sectionNumber === 3) {
+                    apiEndpoint = '/car_parts_segregation';
+                } else if (sectionNumber === 4) {
                     apiEndpoint = '/document_analysis';
                 } else {
                     apiEndpoint = '/default_process';  // Fallback endpoint if sectionNumber is unknown

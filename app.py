@@ -49,7 +49,7 @@ def upload(section):
 ######################################## API ROUTE ##########################################
 #############################################################################################
 
-@app.route('/car_analysis', methods=['POST'])
+@app.route('/car_parts_segregation', methods=['POST'])
 def car_parts_segregation_route():
     if 'image' not in request.files:
         return jsonify({"error": "No image provided"}), 400
